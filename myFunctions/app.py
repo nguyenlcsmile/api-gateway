@@ -13,7 +13,7 @@ def index(event, context):
         Key='data.csv'
     )
     data = dataCsv.get('Body').read()
-    listUsers = data.decode('utf-8')
+    listUsers = data.decode('utf-8').split('\n')
 
     for user in listUsers:
         res = clientdb.put_item(
