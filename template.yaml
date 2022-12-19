@@ -23,31 +23,31 @@ Resources:
       #       TableName: !Ref MyTable
 
       Events:
-        CreateIndex:
+        postLogin:
           Type: Api
           Properties:
-            Path: /createIndex
-            Method: put
-            RestApiId:
-              Ref: UserApi
-        DeleteIndex:
-          Type: Api
-          Properties:
-            Path: /deleteIndex
-            Method: delete
-            RestApiId:
-              Ref: UserApi
-        GetItem:
-          Type: Api
-          Properties:
-            Path: /getItemIndex
-            Method: get
-            RestApiId:
-              Ref: UserApi
-        PostItem:
-          Type: Api
-          Properties:
-            Path: /postItemIndex
+            Path: /login
             Method: post
             RestApiId:
               Ref: UserApi
+        # DeleteIndex:
+        #   Type: Api
+        #   Properties:
+        #     Path: /deleteIndex
+        #     Method: delete
+        #     RestApiId:
+        #       Ref: UserApi
+        # GetItem:
+        #   Type: Api
+        #   Properties:
+        #     Path: /getItemIndex
+        #     Method: get
+        #     RestApiId:
+        #       Ref: UserApi
+        # PostItem:
+        #   Type: Api
+        #   Properties:
+        #     Path: /postItemIndex
+        #     Method: post
+        #     RestApiId:
+        #       Ref: UserApi
