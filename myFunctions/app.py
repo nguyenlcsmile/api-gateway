@@ -9,9 +9,15 @@ def index(event, context):
     res = client.put_item(
         TableName='my-table',
         Item={
-            'id': '1',
-            'username': 'Nguyen Van A',
-            'email': 'vana@gmail.com'
+            'id': {
+                'S': '1'
+            },
+            'username': {
+                'S': 'Nguyen Van A'
+            },
+            'email': {
+                'S': 'vana@gmail.com'
+            }
         }
     )
     print(res)
