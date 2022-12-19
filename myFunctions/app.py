@@ -13,7 +13,7 @@ def index(event, context):
         Key='data.csv'
     )
     data = dataCsv.get('Body').read()
-    listData = list(data)
+    listData = data.decode('utf-8')
     print(listData)
     # df = pd.read_csv('data/data.csv').astype(str)
     # listUsers = df.values.tolist()
