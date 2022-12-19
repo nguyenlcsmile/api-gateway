@@ -27,8 +27,11 @@ def index(event, context):
                 'country': {
                     'S': user[4]
                 },
-                'phone': {
+                'password': {
                     'S': user[5]
+                },
+                'phone': {
+                    'S': user[6]
                 }
             }
         )
