@@ -6,7 +6,7 @@ from io import BytesIO
 
 def index(event, context):
     client = boto3.client('dynamodb')
-    df = pd.read_csv('data/data.csv', encoding='windows-1252').astype(str)
+    df = pd.read_csv('data/data.csv').astype(str)
     listUsers = df.values.tolist()
     for user in listUsers:
         res = client.put_item(
