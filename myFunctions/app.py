@@ -1,7 +1,7 @@
 import json
 import boto3
 import pandas as pd
-from io import BytesIO
+import io
 
 
 def index(event, context):
@@ -13,8 +13,11 @@ def index(event, context):
         Key='data.csv'
     )
     data = dataCsv.get('Body').read()
-    listUsers = data.decode('utf-8').split('\n')
-
+    dataConvert = data.decode('utf-8')
+    df = pd.read_csv(io.StringIO(dataConvert), sep=",").astype(str)
+    print(df)
+    listUsers = df.values.tolist()
+    print(listUsers)
     for user in listUsers:
         res = clientdb.put_item(
             TableName='my-table',
