@@ -1,5 +1,5 @@
 export PROJECT_ID=template
-export AWS_ACCOUNT=911140909431
+export AWS_ACCOUNT=704207050840
 export AWS_REGION=${AWS_REGION:-"ap-southeast-1"}
 
 export S3_BUCKET=${PROJECT_ID}-${AWS_ACCOUNT}-${AWS_REGION}
