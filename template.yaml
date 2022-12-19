@@ -28,13 +28,13 @@ Resources:
             Method: post
             RestApiId:
               Ref: UserApi
-        # DeleteIndex:
-        #   Type: Api
-        #   Properties:
-        #     Path: /deleteIndex
-        #     Method: delete
-        #     RestApiId:
-        #       Ref: UserApi
+        DeleteIndex:
+          Type: Api
+          Properties:
+            Path: /deleteIndex
+            Method: delete
+            RestApiId:
+              Ref: UserApi
         # GetItem:
         #   Type: Api
         #   Properties:
