@@ -6,5 +6,5 @@ from io import BytesIO
 
 def index(event, context):
     return {
-        'body': json.dumps("test PDF")
+        'body': json.dumps(event)
     }
