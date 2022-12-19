@@ -12,7 +12,9 @@ def index(event, context):
         Bucket='customerss',
         Key='data.csv'
     )
-    print(dataCsv.get('Body').read())
+    data = dataCsv.get('Body').read()
+    listData = list(data)
+    print(listData)
     # df = pd.read_csv('data/data.csv').astype(str)
     # listUsers = df.values.tolist()
     # for user in listUsers:
