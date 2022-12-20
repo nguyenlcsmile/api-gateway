@@ -63,6 +63,7 @@ class dynamoDB:
         }
 
     def getItem(self, nameTable, id):
+        print(nameTable, type(nameTable), id, type(id))
         res = self.client.query(
             TableName=nameTable,
             KeyConditionExpression=Key('id').eq(id)
