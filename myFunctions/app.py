@@ -57,7 +57,7 @@ def index(event, context):
     return {
         'headers': {
             'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': 'http://localhost:4200',
             'Access-Control-Allow-Methods': '*'
         },
         'body': json.dumps(res)
