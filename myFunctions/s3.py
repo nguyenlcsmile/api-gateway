@@ -9,7 +9,7 @@ class S3_Bucket:
 
     def getItem(self, key, nameBucket):
         data = self.client.get_object(
-            Bucke=nameBucket,
+            Bucket=nameBucket,
             Key=key
         )
         dataRead = data.get('Body').read()
