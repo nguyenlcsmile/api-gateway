@@ -62,11 +62,10 @@ class dynamoDB:
             'data': res.get("Items", "Not exists items in table!!!")
         }
 
-    def getItem(self, nameTable, id):
-        print(nameTable, type(nameTable), id, type(id))
+    def getItem(self, nameTable, itemId):
         res = self.client.query(
             TableName=nameTable,
-            KeyConditionExpression=Key('id').eq(id)
+            KeyConditionExpression=Key('id').eq(str(itemId))
         )
 
         print(res)
