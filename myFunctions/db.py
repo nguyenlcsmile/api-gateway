@@ -57,6 +57,6 @@ class dynamoDB:
         res = self.client.scan(TableName=nameTable)
         return {
             'statusCode': 200,
-            'message': 'Get all users success!!!',
-            'data': res.get("Items", "Not exists users in table!!!")
+            'message': 'Get all items success!!!',
+            'data': res.get("Items", "Not exists items in table!!!")
         }
