@@ -10,12 +10,7 @@ Resources:
       Cors:
         AllowMethods: "'*'"
         AllowOrigins: "'*'"
-        AllowHeaders:
-          - Content-Type
-          - Accept
-          - Access-Control-Allow-Headers
-          - Access-Control-Request-Method
-          - Access-Control-Request-Headers
+        AllowHeaders: "'*'"
 
   MyTemplate:
     Type: AWS::Serverless::Function
