@@ -55,5 +55,10 @@ def index(event, context):
         res = db.getAllItems(nameTable=dataParam.get('table'))
 
     return {
+        'headers': {
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': '*'
+        },
         'body': json.dumps(res)
     }

@@ -9,8 +9,6 @@ Resources:
       StageName: Prod
       Cors:
         AllowMethods: "'*'"
-        AllowOrigins: "'*'"
-        AllowHeaders: "'*'"
 
   MyTemplate:
     Type: AWS::Serverless::Function
