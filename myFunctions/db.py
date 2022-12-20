@@ -30,7 +30,7 @@ class dynamoDB:
                     itemDict[columns[j]] = items[i][j]
 
                 index = "'_index': '{}', '_id': '{}'".format(
-                    nameIndex, i+1).replace("\'", "\"")
+                    nameIndex, i).replace("\'", "\"")
                 index = "{ \"index\": { " + index + " } }"
                 data = data + index + '\n'
                 data = data + json.dumps(itemDict) + '\n'
@@ -70,9 +70,12 @@ class dynamoDB:
                         'phone': {
                             'S': item[6]
                         },
-                        'image': {
+                        'urlImage': {
                             'S': urlImage
-                        }
+                        },
+                        'imagebase64': {
+                            'S': item[7]
+                        },
                     }
                 )
 
@@ -108,8 +111,6 @@ class dynamoDB:
             },
             KeyConditionExpression='#id = :id'
         )
-
-        print(res)
 
         return {
             'statusCode': 200,
