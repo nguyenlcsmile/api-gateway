@@ -48,8 +48,10 @@ def index(event, context):
     if inforReq.get("method") == "POST" and inforReq.get("path") == "/postAllItems":
         data = s3.getItem(key='data.csv', nameBucket='customerss')
         df = pd.read_csv(io.StringIO(data), sep=",").astype(str)
+        columns = df.columns.tolist()
         listItems = df.values.tolist()
-        res = db.putAllItems(items=listItems, nameTable='my-table')
+        res = db.putAllItems(
+            items=listItems, nameTable='my-table', nameIndex='customers', columns=columns)
 
     elif inforReq.get("method") == "GET" and inforReq.get("path") == "/getAllItems" and dataParam:
         res = db.getAllItems(nameTable=dataParam.get('table'))
