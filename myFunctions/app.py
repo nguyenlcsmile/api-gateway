@@ -1,50 +1,56 @@
 import json
-import boto3
 import pandas as pd
 import io
+from s3 import S3_Bucket
+from db import dynamoDB
+
+
+def body_data(data):
+    dataUsers = data.strip().replace(" ", "")
+    data = "".join(dataUsers.split())
+    dataConvert = json.loads(data)
+    return dataConvert
+
+
+def param_data(data):
+    dataJson = {}
+    for key, val in data.items():
+        dataJson[key] = val[0]
+    return dataJson
 
 
 def index(event, context):
-    clientdb = boto3.client('dynamodb')
-    clients3 = boto3.client('s3')
+    s3 = S3_Bucket()
+    db = dynamoDB()
 
-    dataCsv = clients3.get_object(
-        Bucket='customerss',
-        Key='data.csv'
-    )
-    data = dataCsv.get('Body').read()
-    dataConvert = data.decode('utf-8')
-    df = pd.read_csv(io.StringIO(dataConvert), sep=",").astype(str)
-    print(df)
-    listUsers = df.values.tolist()
-    print(listUsers)
-    for user in listUsers:
-        res = clientdb.put_item(
-            TableName='my-table',
-            Item={
-                'id': {
-                    'S': user[0]
-                },
-                'username': {
-                    'S': user[1]
-                },
-                'email': {
-                    'S': user[2]
-                },
-                'gender': {
-                    'S': user[3]
-                },
-                'country': {
-                    'S': user[4]
-                },
-                'password': {
-                    'S': user[5]
-                },
-                'phone': {
-                    'S': user[6]
-                }
-            }
-        )
+    urlRaw = event.get("path", None).split('/')
+    urlReq = "/".join(urlRaw[2:])
+    dataBody = None
+    dataParam = None
+
+    inforReq = {
+        "header": event.get("headers", None),
+        "path": event.get("path", None),
+        "method": event.get("httpMethod", None),
+        "body": event.get("body", None),
+        "param": event.get("multiValueQueryStringParameters", None),
+        "urlReq": urlReq
+    }
+
+    if (inforReq.get("param")):
+        dataParam = param_data(inforReq.get("param"))
+
+    # # Process data
+    if (inforReq.get("body")):
+        dataBody = body_data(inforReq.get("body"))
+
+    #### =============================************============================####
+    if inforReq.get("method") == "POST" and inforReq.get("path") == "/postAllItems":
+        data = s3.getItem(key='data.csv', nameBucket='customerss')
+        df = pd.read_csv(io.StringIO(data), sep=",").astype(str)
+        listItems = df.values.tolist()
+        res = db.putAllItems(listItems)
+
     return {
-        'body': json.dumps(event)
+        'body': json.dumps(res)
     }

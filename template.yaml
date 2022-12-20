@@ -22,6 +22,14 @@ Resources:
         - AmazonS3FullAccess
 
       Events:
+        postAllItems:
+          Type: Api
+          Properties:
+            Path: /postAllItems
+            Method: post
+            RestApiId:
+              Ref: UserApi
+
         postLogin:
           Type: Api
           Properties:
@@ -29,11 +37,12 @@ Resources:
             Method: post
             RestApiId:
               Ref: UserApi
-        DeleteIndex:
+
+        getListItems:
           Type: Api
           Properties:
-            Path: /deleteIndex
-            Method: delete
+            Path: /getAllItems
+            Method: get
             RestApiId:
               Ref: UserApi
         # GetItem:
