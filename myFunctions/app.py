@@ -49,7 +49,10 @@ def index(event, context):
         data = s3.getItem(key='data.csv', nameBucket='customerss')
         df = pd.read_csv(io.StringIO(data), sep=",").astype(str)
         listItems = df.values.tolist()
-        res = db.putAllItems(listItems)
+        res = db.putAllItems(items=listItems, nameTable='my-table')
+
+    elif inforReq.get("method") == "GET" and inforReq.get("path") == "/getAllItems":
+        res = db.getAllItems(nameTable='my-table')
 
     return {
         'body': json.dumps(res)
