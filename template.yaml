@@ -55,10 +55,11 @@ Resources:
             Method: get
             RestApiId:
               Ref: UserApi
-        # PostItem:
-        #   Type: Api
-        #   Properties:
-        #     Path: /postItemIndex
-        #     Method: post
-        #     RestApiId:
-        #       Ref: UserApi
+
+        updateItem:
+          Type: Api
+          Properties:
+            Path: /updateItem
+            Method: put
+            RestApiId:
+              Ref: UserApi
