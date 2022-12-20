@@ -8,8 +8,9 @@ Resources:
     Properties:
       StageName: Prod
       Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'*'"
         AllowMethods: "'*'"
-        AllowOrigin: "'http://localhost:4200'"
 
   MyTemplate:
     Type: AWS::Serverless::Function
