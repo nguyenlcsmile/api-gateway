@@ -30,6 +30,7 @@ class S3_Bucket:
             Key=key + '.png'
         )
 
-        url = '{}/{}/{}'.format(self.client.meta.endpoint_url, nameBucket, key)
+        url = '{}/{}/{}'.format(self.client.meta.endpoint_url,
+                                nameBucket, key + '.png')
 
         return url
