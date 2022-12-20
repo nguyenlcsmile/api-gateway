@@ -47,13 +47,14 @@ Resources:
             Method: get
             RestApiId:
               Ref: UserApi
-        # GetItem:
-        #   Type: Api
-        #   Properties:
-        #     Path: /getItemIndex
-        #     Method: get
-        #     RestApiId:
-        #       Ref: UserApi
+
+        GetItem:
+          Type: Api
+          Properties:
+            Path: /getItem
+            Method: get
+            RestApiId:
+              Ref: UserApi
         # PostItem:
         #   Type: Api
         #   Properties:

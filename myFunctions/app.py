@@ -54,6 +54,10 @@ def index(event, context):
     elif inforReq.get("method") == "GET" and inforReq.get("path") == "/getAllItems" and dataParam:
         res = db.getAllItems(nameTable=dataParam.get('table'))
 
+    elif inforReq.get("method") == "GET" and inforReq.get("path") == "/getItem" and dataParam:
+        res = db.getItem(nameTable=dataParam.get(
+            'table'), id=dataParam.get('itemId'))
+
     return {
         "headers": {
             "Access-Control-Allow-Origin": "*",

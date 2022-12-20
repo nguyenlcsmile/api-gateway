@@ -57,6 +57,24 @@ class dynamoDB:
         res = self.client.scan(TableName=nameTable)
         return {
             'statusCode': 200,
-            'message': 'Get all items success!!!',
+            'message': 'Get all items success.',
+            'data': res.get("Items", "Not exists items in table!!!")
+        }
+
+    def getItem(self, nameTable, id):
+        res = self.client.query(
+            TableName=nameTable,
+            ExpressionAttributeNames={
+                '#id': 'id'
+            },
+            ExpressionAttributeValues={
+                ':id': str(id)
+            },
+            KeyConditionExpression='#id = :id'
+        )
+
+        return {
+            'statusCode': 200,
+            'message': 'Get item success.',
             'data': res.get("Items", "Not exists items in table!!!")
         }
