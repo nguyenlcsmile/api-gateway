@@ -51,8 +51,8 @@ def index(event, context):
         listItems = df.values.tolist()
         res = db.putAllItems(items=listItems, nameTable='my-table')
 
-    elif inforReq.get("method") == "GET" and inforReq.get("path") == "/getAllItems":
-        res = db.getAllItems(nameTable='my-table')
+    elif inforReq.get("method") == "GET" and inforReq.get("path") == "/getAllItems" and dataParam:
+        res = db.getAllItems(nameTable=dataParam.get('table'))
 
     return {
         'body': json.dumps(res)
