@@ -65,7 +65,15 @@ class dynamoDB:
     def getItem(self, nameTable, itemId):
         res = self.client.query(
             TableName=nameTable,
-            KeyConditionExpression=Key('id').eq(str(itemId))
+            KeyConditions={
+                'id': {
+                    'AttributeValueList': [
+                        {
+                            'S': str(itemId),
+                        }
+                    ]
+                }
+            },
         )
 
         print(res)
