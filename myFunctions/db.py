@@ -1,5 +1,6 @@
 import boto3
 from s3 import S3_Bucket
+from boto3.dynamodb.conditions import Key
 
 
 class dynamoDB:
@@ -64,14 +65,10 @@ class dynamoDB:
     def getItem(self, nameTable, id):
         res = self.client.query(
             TableName=nameTable,
-            ExpressionAttributeNames={
-                '#id': 'id'
-            },
-            ExpressionAttributeValues={
-                ':id': str(id)
-            },
-            KeyConditionExpression='#id = :id'
+            KeyConditionExpression=Key('id').eq(str(id))
         )
+
+        print(res)
 
         return {
             'statusCode': 200,

@@ -48,7 +48,7 @@ Resources:
             RestApiId:
               Ref: UserApi
 
-        GetItem:
+        getItem:
           Type: Api
           Properties:
             Path: /getItem
