@@ -22,6 +22,7 @@ class dynamoDB:
         )
         if (response):
             # insert dynamo
+            data = ''
             for i in range(len(items)):
                 itemDict = {}
 
