@@ -55,6 +55,7 @@ def index(event, context):
         res = db.getAllItems(nameTable=dataParam.get('table'))
 
     elif inforReq.get("method") == "GET" and inforReq.get("path") == "/getItem" and dataParam:
+        print(dataParam)
         res = db.getItem(nameTable=dataParam.get(
             'table'), id=dataParam.get('itemId'))
 
