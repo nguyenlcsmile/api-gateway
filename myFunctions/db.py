@@ -29,7 +29,7 @@ class dynamoDB:
                     itemDict[columns[j]] = items[i][j]
 
                 index = "'_index': '{}', '_id': '{}'".format(
-                    nameIndex, i).replace("\'", "\"")
+                    nameIndex, i+1).replace("\'", "\"")
                 index = "{ \"index\": { " + index + " } }"
                 data = data + index + '\n'
                 data = data + json.dumps(itemDict) + '\n'
@@ -97,15 +97,15 @@ class dynamoDB:
     def getItem(self, nameTable, itemId):
         res = self.client.query(
             TableName=nameTable,
-            KeyConditions={
-                'id': {
-                    'AttributeValueList': [
-                        {
-                            'S': str(itemId),
-                        }
-                    ]
+            ExpressionAttributeNames={
+                '#id': 'id'
+            },
+            ExpressionAttributeValues={
+                ':id': {
+                    'S': str(itemId)
                 }
             },
+            KeyConditionExpression='#id = :id'
         )
 
         print(res)
