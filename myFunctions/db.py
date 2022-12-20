@@ -16,30 +16,14 @@ class dynamoDB:
                 res = self.client.put_item(
                     TableName=nameTable,
                     Item={
-                        'id': {
-                            'S': item[0]
-                        },
-                        'username': {
-                            'S': item[1]
-                        },
-                        'email': {
-                            'S': item[2]
-                        },
-                        'gender': {
-                            'S': item[3]
-                        },
-                        'country': {
-                            'S': item[4]
-                        },
-                        'password': {
-                            'S': item[5]
-                        },
-                        'phone': {
-                            'S': item[6]
-                        },
-                        'image': {
-                            'S': urlImage
-                        }
+                        'id': str(item[0]),
+                        'username': str(item[1]),
+                        'email': str(item[2]),
+                        'gender': str(item[3]),
+                        'country': str(item[4]),
+                        'password': str(item[5]),
+                        'phone': str(item[6]),
+                        'image': str(urlImage)
                     }
                 )
 
