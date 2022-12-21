@@ -60,6 +60,10 @@ def index(event, context):
         res = db.getItem(nameTable=dataParam.get(
             'table'), itemId=dataParam.get('itemId'))
 
+    elif inforReq.get("method") == "PUT" and inforReq.get("path") == "/updateItem" and dataParam and dataBody:
+        print(dataBody)
+        res = db.updateItem(nameTable=dataParam.get('table'), item=dataBody)
+
     return {
         "headers": {
             "Access-Control-Allow-Origin": "*",

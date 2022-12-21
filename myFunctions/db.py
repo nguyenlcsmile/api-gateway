@@ -123,48 +123,50 @@ class dynamoDB:
             'data': res.get("Items", "Not exists items in table!!!")
         }
 
-    # def updateItem(self, nameTable, item):
-    #     checkExitItem = self.client.query(
-    #         TableName=nameTable,
-    #         ExpressionAttributeNames={
-    #             '#id': 'id'
-    #         },
-    #         ExpressionAttributeValues={
-    #             ':id': {
-    #                 'S': str(item.get('id'))
-    #             }
-    #         },
-    #         KeyConditionExpression='#id = :id'
-    #     )
+    def updateItem(self, nameTable, item):
+        checkExitItem = self.client.query(
+            TableName=nameTable,
+            ExpressionAttributeNames={
+                '#id': 'id'
+            },
+            ExpressionAttributeValues={
+                ':id': {
+                    'S': str(item.get('id'))
+                }
+            },
+            KeyConditionExpression='#id = :id'
+        )
 
-    #     if (checkExitItem.get("Count") != 0):
-    #         res = self.client.update_item(
-    #             Key={
-    #                 'id': item.get('id')
-    #             },
-    #             ExpressionAttributeNames={
-    #                 '#username': 'username',
-    #                 '#email': 'email',
-    #                 '#address': 'address',
-    #                 '#phone': 'phone',
-    #                 '#urlImage': 'urlImage',
-    #                 '#imagebase64': 'imagebase64'
-    #             },
-    #             ExpressionAttributeValues={
-    #                 ':username': item.get('username'),
-    #                 ':email': item.get('email'),
-    #                 ':address': item.get('email'),
-    #                 ':phone': data.get("phone", ""),
-    #                 ':urlImage': urlImage,
-    #                 ':imagebase64': data.get("avatar", "")
-    #             },
-    #             UpdateExpression='SET #username = :username, #email = :email,' +
-    #             '#password = :password, #address = :address,' +
-    #             '#phone = :phone, #urlImage = :urlImage, #imagebase64 = :imagebase64',
-    #             ReturnValues='ALL_NEW',
-    #         )
-    #     else:
-    #         return {
-    #             'statusCode': 400,
-    #             'message': 'Item is not exists.'
-    #         }
+        if (checkExitItem.get("Count") != 0):
+            res = self.client.update_item(
+                Key={
+                    'id': item.get('id')
+                },
+                ExpressionAttributeNames={
+                    '#username': 'username',
+                    '#email': 'email',
+                    '#address': 'address',
+                    '#phone': 'phone',
+                    '#urlImage': 'urlImage',
+                    '#imagebase64': 'imagebase64',
+                    '#country': 'country'
+                },
+                ExpressionAttributeValues={
+                    ':username': item.get('username'),
+                    ':email': item.get('email'),
+                    ':address': item.get('address'),
+                    ':phone': item.get('phone'),
+                    ':urlImage': item.get('urlImage'),
+                    ':imagebase64': item.get('imagebase64'),
+                    ':country': item.get('country')
+                },
+                UpdateExpression='SET #username = :username, #email = :email,' +
+                '#password = :password, #address = :address,' +
+                '#phone = :phone, #urlImage = :urlImage, #imagebase64 = :imagebase64, #country = :country',
+                ReturnValues='ALL_NEW',
+            )
+        else:
+            return {
+                'statusCode': 400,
+                'message': 'Item is not exists.'
+            }
