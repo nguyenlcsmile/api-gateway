@@ -144,7 +144,7 @@ class dynamoDB:
                 ExpressionAttributeNames={
                     '#username': 'username',
                     '#email': 'email',
-                    '#address': 'address',
+                    '#gender': 'gender',
                     '#phone': 'phone',
                     '#urlImage': 'urlImage',
                     '#imagebase64': 'imagebase64',
@@ -153,14 +153,14 @@ class dynamoDB:
                 ExpressionAttributeValues={
                     ':username': item.get('username'),
                     ':email': item.get('email'),
-                    ':address': item.get('address'),
+                    ':gender': item.get('gender'),
                     ':phone': item.get('phone'),
                     ':urlImage': item.get('urlImage'),
                     ':imagebase64': item.get('imagebase64'),
                     ':country': item.get('country')
                 },
                 UpdateExpression='SET #username = :username, #email = :email,' +
-                '#password = :password, #address = :address,' +
+                '#password = :password, #gender = :gender,' +
                 '#phone = :phone, #urlImage = :urlImage, #imagebase64 = :imagebase64, #country = :country',
                 ReturnValues='ALL_NEW',
             )
