@@ -160,8 +160,8 @@ class dynamoDB:
                     ':country': item.get('country')
                 },
                 UpdateExpression='SET #username = :username, #email = :email,' +
-                '#password = :password, #gender = :gender,' +
-                '#phone = :phone, #urlImage = :urlImage, #imagebase64 = :imagebase64, #country = :country',
+                '#country = :country, #gender = :gender,' +
+                '#phone = :phone, #urlImage = :urlImage, #imagebase64 = :imagebase64',
                 ReturnValues='ALL_NEW',
             )
         else:
