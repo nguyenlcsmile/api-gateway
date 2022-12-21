@@ -137,6 +137,7 @@ class dynamoDB:
 
         if (checkExitItem.get("Count") != 0):
             res = self.client.update_item(
+                TableName=nameTable,
                 Key={
                     'id': item.get('id')
                 },
