@@ -164,6 +164,10 @@ class dynamoDB:
                 '#phone = :phone, #urlImage = :urlImage, #imagebase64 = :imagebase64',
                 ReturnValues='ALL_NEW',
             )
+            return {
+                'statusCode': 200,
+                'message': 'Update item success.'
+            }
         else:
             return {
                 'statusCode': 400,
