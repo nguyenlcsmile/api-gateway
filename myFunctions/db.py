@@ -124,7 +124,6 @@ class dynamoDB:
         }
 
     def updateItem(self, nameTable, item):
-        print(item, nameTable)
         checkExitItem = self.client.query(
             TableName=nameTable,
             ExpressionAttributeNames={
