@@ -173,3 +173,31 @@ class dynamoDB:
                 'statusCode': 400,
                 'message': 'Item is not exists.'
             }
+
+    def filterItem(self, nameIndex, item):
+        infoQuery = []
+        for key in item.keys():
+            if item.get(key) != '':
+                infoQuery.append(
+                    {"match_phrase": {
+                        f"{key}": str(item.get(key))}}
+                )
+
+        response = requests.get(
+            self.endpointOS + nameIndex + '/_search',
+            auth=HTTPBasicAuth(self.username, self.password),
+            headers={'Content-Type': 'application/json'},
+            data=json.dumps(infoQuery)
+        )
+
+        return response.get('hits').get('total').get('value')
+
+    def postItem(self, nameTable, nameIndex, item):
+        checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
+        # response = requests.post(
+        #     self.endpointOS + nameIndex + '/_doc',
+        #     auth=HTTPBasicAuth(self.username, self.password),
+        #     headers={'Content-Type': 'application/json'},
+        #     data=json.dumps(item)
+        # )
+        return checkItemExist

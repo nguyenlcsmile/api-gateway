@@ -32,6 +32,14 @@ Resources:
             RestApiId:
               Ref: UserApi
 
+        postItem:
+          Type: Api
+          Properties:
+            Path: /postItem
+            Method: post
+            RestApiId:
+              Ref: UserApi
+
         postLogin:
           Type: Api
           Properties:
