@@ -191,7 +191,7 @@ class dynamoDB:
         )
         print(response, type(response))
 
-        return response.get('hits').get('total').get('value')
+        return response.json().get('hits').get('total').get('value')
 
     def postItem(self, nameTable, nameIndex, item):
         checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
