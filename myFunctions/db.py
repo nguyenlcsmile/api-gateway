@@ -198,23 +198,27 @@ class dynamoDB:
             headers={'Content-Type': 'application/json'},
             data=json.dumps(body)
         )
-        print(response.json(), type(response))
 
         return response.json().get('hits').get('total').get('value')
 
     def postItem(self, nameTable, nameIndex, item):
         checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
-        # if (checkItemExist != 0):
-        #     return {
-        #         'statuscode': 400,
-        #         'message': 'Item is exist.'
-        #     }
+        if (checkItemExist != 0):
+            return {
+                'statuscode': 400,
+                'message': 'Item is exist.'
+            }
 
-        # response = requests.post(
-        #     self.endpointOS + nameIndex + '/_doc',
-        #     auth=HTTPBasicAuth(self.username, self.password),
-        #     headers={'Content-Type': 'application/json'},
-        #     data=json.dumps(item)
-        # )
+        response = requests.post(
+            self.endpointOS + nameIndex + '/_doc',
+            auth=HTTPBasicAuth(self.username, self.password),
+            headers={'Content-Type': 'application/json'},
+            data=json.dumps(item)
+        )
 
-        return checkItemExist
+        urlImage = self.s3.putItemImage(
+            item=item.get('imagebase64'), key=item.get('email'), nameBucket='customerss')
+
+        getItem = self.filterItem(nameIndex=nameIndex, item=item)
+
+        return response.json()

@@ -66,7 +66,6 @@ def index(event, context):
             'table'), itemId=dataParam.get('itemId'))
 
     elif inforReq.get("method") == "PUT" and inforReq.get("path") == "/updateItem" and dataParam and dataBody:
-        print(dataBody, type(dataBody), dataParam, type(dataParam))
         res = db.updateItem(nameTable=dataParam.get('table'), item=dataBody)
 
     return {
