@@ -183,13 +183,21 @@ class dynamoDB:
                         f"{key}": str(item.get(key))}}
                 )
 
+        body = {
+            "query": {
+                "bool": {
+                    "must": infoQuery
+                }
+            }
+        }
+
         response = requests.get(
             self.endpointOS + nameIndex + '/_search',
             auth=HTTPBasicAuth(self.username, self.password),
             headers={'Content-Type': 'application/json'},
-            data=json.dumps(infoQuery)
+            data=json.dumps(body)
         )
-        print(response, type(response))
+        print(response.json(), type(response))
 
         return response.json().get('hits').get('total').get('value')
 
