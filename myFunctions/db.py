@@ -192,12 +192,12 @@ class dynamoDB:
             data=json.dumps(body)
         )
 
-        return response.json().get('hits').get('total').get('value')
+        return response.json()
 
     def postItem(self, nameTable, nameIndex, item):
         checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
-        print(checkItemExist)
-        if (checkItemExist != 0):
+
+        if (checkItemExist.get('hits').get('total').get('value') != 0):
             return {
                 'statuscode': 400,
                 'message': 'Item is exist.'
@@ -248,6 +248,40 @@ class dynamoDB:
             )
 
             return {
-                'statuscode': 200,
+                'statusCode': 200,
                 'message': 'Create item success.'
             }
+
+        return {
+            'statusCode': 500,
+            'message': 'Somthing wrong from server.'
+        }
+
+    def postLogin(self, nameTable, nameIndex, item):
+        checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
+
+        if (checkItemExist.get('hits').get('total').get('value') != 0):
+
+            idItem = checkItemExist.get('hits').get('hits').get('_id')
+
+            checkExitItemDB = self.client.query(
+                TableName=nameTable,
+                ExpressionAttributeNames={
+                    '#id': 'id'
+                },
+                ExpressionAttributeValues={
+                    ':id': str(idItem)
+                },
+                KeyConditionExpression='#id = :id'
+            )
+
+            if (checkExitItemDB.get("Count") != 0):
+                return {
+                    'statusCode': 200,
+                    'message': 'Login success.'
+                }
+
+        return {
+            'statusCode': 500,
+            'message': 'Somthing wrong.'
+        }
