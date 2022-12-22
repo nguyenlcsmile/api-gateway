@@ -175,22 +175,15 @@ class dynamoDB:
             }
 
     def filterItem(self, nameIndex, item):
-        infoQuery = []
-        for key in item.keys():
-            if item.get(key) != '':
-                infoQuery.append(
-                    {"match_phrase": {
-                        f"{key}": str(item.get(key))}}
-                )
-
         body = {
             "query": {
                 "bool": {
-                    "must": infoQuery
+                    "must": [
+                        {"match_phrase": {"email": str(item.get('email'))}}
+                    ]
                 }
             }
         }
-        print(body, type(body))
 
         response = requests.get(
             self.endpointOS + nameIndex + '/_search',
@@ -217,9 +210,44 @@ class dynamoDB:
             data=json.dumps(item)
         )
 
-        urlImage = self.s3.putItemImage(
-            item=item.get('imagebase64'), key=item.get('email'), nameBucket='customerss')
+        if (response.get('result') == 'created'):
+            urlImage = self.s3.putItemImage(
+                item=item.get('imagebase64'), key=response.get('_id'), nameBucket='customerss')
 
-        getItem = self.filterItem(nameIndex=nameIndex, item=item)
+            res = self.client.put_item(
+                TableName=nameTable,
+                Item={
+                    'id': {
+                        'S': response.get('_id')
+                    },
+                    'username': {
+                        'S': item.get('username')
+                    },
+                    'email': {
+                        'S': item.get('email')
+                    },
+                    'gender': {
+                        'S': item.get('gender')
+                    },
+                    'country': {
+                        'S': item.get('country')
+                    },
+                    'password': {
+                        'S': item.get('password')
+                    },
+                    'phone': {
+                        'S': item.get('phone')
+                    },
+                    'urlImage': {
+                        'S': urlImage
+                    },
+                    'imagebase64': {
+                        'S': item.get('imagebase64')
+                    },
+                }
+            )
 
-        return response.json()
+            return {
+                'statuscode': 200,
+                'message': 'Create item success.'
+            }
