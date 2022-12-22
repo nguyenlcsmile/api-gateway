@@ -203,6 +203,7 @@ class dynamoDB:
 
     def postItem(self, nameTable, nameIndex, item):
         checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
+        print(checkItemExist)
         if (checkItemExist != 0):
             return {
                 'statuscode': 400,
