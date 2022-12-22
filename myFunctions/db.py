@@ -190,6 +190,7 @@ class dynamoDB:
                 }
             }
         }
+        print(body, type(body))
 
         response = requests.get(
             self.endpointOS + nameIndex + '/_search',
@@ -203,10 +204,17 @@ class dynamoDB:
 
     def postItem(self, nameTable, nameIndex, item):
         checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
+        # if (checkItemExist != 0):
+        #     return {
+        #         'statuscode': 400,
+        #         'message': 'Item is exist.'
+        #     }
+
         # response = requests.post(
         #     self.endpointOS + nameIndex + '/_doc',
         #     auth=HTTPBasicAuth(self.username, self.password),
         #     headers={'Content-Type': 'application/json'},
         #     data=json.dumps(item)
         # )
+
         return checkItemExist
