@@ -6,8 +6,8 @@ from db import dynamoDB
 
 
 def body_data(data):
-    dataUsers = data.strip()
-    data = "".join(dataUsers.split())
+    # dataUsers = data.strip()
+    # data = "".join(dataUsers.split())
     dataConvert = json.loads(data)
     return dataConvert
 
