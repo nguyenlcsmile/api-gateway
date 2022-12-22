@@ -210,15 +210,15 @@ class dynamoDB:
             data=json.dumps(item)
         )
 
-        if (response.get('result') == 'created'):
+        if (response.json().get('result') == 'created'):
             urlImage = self.s3.putItemImage(
-                item=item.get('imagebase64'), key=response.get('_id'), nameBucket='customerss')
+                item=item.get('imagebase64'), key=response.json().get('_id'), nameBucket='customerss')
 
             res = self.client.put_item(
                 TableName=nameTable,
                 Item={
                     'id': {
-                        'S': response.get('_id')
+                        'S': response.json().get('_id')
                     },
                     'username': {
                         'S': item.get('username')
