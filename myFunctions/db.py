@@ -189,6 +189,7 @@ class dynamoDB:
             headers={'Content-Type': 'application/json'},
             data=json.dumps(infoQuery)
         )
+        print(response, type(response))
 
         return response.get('hits').get('total').get('value')
 
