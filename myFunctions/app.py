@@ -72,7 +72,7 @@ def index(event, context):
                            nameIndex=dataParam.get('index'), item=dataBody)
         
     elif inforReq.get("method") == "POST" and inforReq.get("path") == "/forgot-password" and dataParam and dataBody:
-        res = db.postLogin(nameTable=dataParam.get('table'),
+        res = db.postForgotPassword(nameTable=dataParam.get('table'),
                            nameIndex=dataParam.get('index'), item=dataBody)
 
     return {
