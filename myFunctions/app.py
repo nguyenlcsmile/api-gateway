@@ -65,7 +65,7 @@ def index(event, context):
             'table'), itemId=dataParam.get('itemId'))
 
     elif inforReq.get("method") == "PUT" and inforReq.get("path") == "/updateItem" and dataParam and dataBody:
-        res = db.updateItem(nameTable=dataParam.get('table'), item=dataBody)
+        res = db.updateItem(nameTable=dataParam.get('table'), nameIndex=dataParam.get('index'), item=dataBody)
 
     elif inforReq.get("method") == "POST" and inforReq.get("path") == "/login" and dataParam and dataBody:
         res = db.postLogin(nameTable=dataParam.get('table'),
