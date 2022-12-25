@@ -9,7 +9,7 @@ from boto3.dynamodb.conditions import Key
 class dynamoDB:
     def __init__(self):
         self.client = boto3.client('dynamodb')
-        self.endpointOS = 'https://search-customers-goqen7vb6qjj7oe445jvw2tlwe.ap-southeast-1.es.amazonaws.com/'
+        self.endpointOS = 'https://search-domain-x2xckinl4dpgecalezurjk6jbi.ap-southeast-1.es.amazonaws.com/'
         self.username = 'admin'
         self.password = 'Caolenguyencln@1'
         self.s3 = S3_Bucket()
@@ -158,7 +158,7 @@ class dynamoDB:
         checkItemExistOS = self.filterItem(nameIndex=nameIndex, item=item) 
         
         if (checkExistItemDB.get("Count") != 0) and checkItemExistOS.get('hits').get('total').get('value') != 0:
-            res = self.client.update_item(
+            resDB = self.client.update_item(
                 TableName=nameTable,
                 Key={
                     'id': item.get('id')
@@ -187,7 +187,13 @@ class dynamoDB:
                 ReturnValues='ALL_NEW',
             )
             
-            
+            resOS = requests.post(
+                self.endpointOS + nameIndex + '/_update',
+                auth=HTTPBasicAuth(self.username, self.password),
+                headers={'Content-Type': 'application/json'},
+                data=json.dumps(item)
+            )
+
             return {
                 'statusCode': 200,
                 'message': 'Update item success.'
