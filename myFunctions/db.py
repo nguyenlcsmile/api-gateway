@@ -281,7 +281,7 @@ class dynamoDB:
                     '#id': 'id'
                 },
                 ExpressionAttributeValues={
-                    ':id': str(idItem)
+                    ':id': idItem
                 },
                 KeyConditionExpression='#id = :id'
             )
