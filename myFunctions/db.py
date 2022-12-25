@@ -274,7 +274,6 @@ class dynamoDB:
         if (checkItemExist.get('hits').get('total').get('value') != 0):
 
             idItem = checkItemExist.get('hits').get('hits')[0].get('_id')
-            print(idItem, type(idItem))
             checkExitItemDB = self.client.query(
                 TableName=nameTable,
                 ExpressionAttributeNames={
@@ -285,11 +284,11 @@ class dynamoDB:
                         'S': str(idItem)
                     }
                 },
-                KeyConditionExpression='#id = :id'
+                KeyConditionExpression='#id = :id',
+                AttributesToGet=['password'],
             )
 
-            print(checkExitItemDB)
-            if (checkExitItemDB.get("Count") != 0):
+            if (checkExitItemDB.get("Count") != 0) and checkExitItemDB.get('Items')[0].get('password').get('S') == item.get('password'):
                 return {
                     'statusCode': 200,
                     'message': 'Login success.'
