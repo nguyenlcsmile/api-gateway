@@ -175,22 +175,22 @@ class dynamoDB:
                 },
                 ExpressionAttributeValues={
                     ':username': {
-                        'S': item.get('username', '')
+                        'S': item.get('username', checkExistItemDB.get('Items')[0].get('username').get('S'))
                     },
                     ':email': {
-                        'S': item.get('email', '')
+                        'S': item.get('email', checkExistItemDB.get('Items')[0].get('email').get('S'))
                     },
                     ':gender': {
-                        'S': item.get('gender', '')
+                        'S': item.get('gender', checkExistItemDB.get('Items')[0].get('gender').get('S'))
                     },
                     ':phone': {
-                        'S': item.get('phone', '')
+                        'S': item.get('phone', checkExistItemDB.get('Items')[0].get('phone').get('S'))
                     },
                     ':imagebase64': {
-                        'S': item.get('imagebase64', '')
+                        'S': item.get('imagebase64', checkExistItemDB.get('Items')[0].get('imagebase64').get('S'))
                     },
                     ':country': {
-                        'S': item.get('country', '')
+                        'S': item.get('country',  checkExistItemDB.get('Items')[0].get('country').get('S'))
                     }
                 },
                 UpdateExpression='SET #username = :username, #email = :email,' +
