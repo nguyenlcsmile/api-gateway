@@ -156,10 +156,8 @@ class dynamoDB:
             },
             KeyConditionExpression='#id = :id'
         )
-
-        checkItemExistOS = self.filterItem(nameIndex=nameIndex, item=item) 
         
-        if (checkExistItemDB.get("Count") != 0) and checkItemExistOS.get('hits').get('total').get('value') != 0:
+        if (checkExistItemDB.get("Count") != 0):
             resDB = self.client.update_item(
                 TableName=nameTable,
                 Key={
