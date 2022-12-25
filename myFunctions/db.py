@@ -321,7 +321,9 @@ class dynamoDB:
                 res = self.client.update_item(
                     TableName=nameTable,
                     Key={
-                        'id': str(idItem)
+                        'id': {
+                            'S': str(idItem)
+                        }
                     },
                     ExpressionAttributeNames={
                         '#password': 'password',
@@ -353,5 +355,5 @@ class dynamoDB:
 
         return {
             'statusCode': 500,
-            'message': 'Somthing wrong.'
+            'message': 'Item is not exists.'
         }
