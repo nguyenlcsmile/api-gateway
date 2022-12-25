@@ -123,8 +123,28 @@ class dynamoDB:
             'data': res.get("Items", "Not exists items in table!!!")
         }
 
-    def updateItem(self, nameTable, item):
-        checkExitItem = self.client.query(
+    def filterItem(self, nameIndex, item):
+        body = {
+            "query": {
+                "bool": {
+                    "must": [
+                        {"match_phrase": {"email": str(item.get('email'))}}
+                    ]
+                }
+            }
+        }
+
+        response = requests.get(
+            self.endpointOS + nameIndex + '/_search',
+            auth=HTTPBasicAuth(self.username, self.password),
+            headers={'Content-Type': 'application/json'},
+            data=json.dumps(body)
+        )
+
+        return response.json()
+    
+    def updateItem(self, nameTable, nameIndex, item):
+        checkExistItemDB = self.client.query(
             TableName=nameTable,
             ExpressionAttributeNames={
                 '#id': 'id'
@@ -135,7 +155,9 @@ class dynamoDB:
             KeyConditionExpression='#id = :id'
         )
 
-        if (checkExitItem.get("Count") != 0):
+        checkItemExistOS = self.filterItem(nameIndex=nameIndex, item=item) 
+        
+        if (checkExistItemDB.get("Count") != 0) and checkItemExistOS.get('hits').get('total').get('value') != 0:
             res = self.client.update_item(
                 TableName=nameTable,
                 Key={
@@ -164,6 +186,8 @@ class dynamoDB:
                 '#phone = :phone, #urlImage = :urlImage, #imagebase64 = :imagebase64',
                 ReturnValues='ALL_NEW',
             )
+            
+            
             return {
                 'statusCode': 200,
                 'message': 'Update item success.'
@@ -174,30 +198,10 @@ class dynamoDB:
                 'message': 'Item is not exists.'
             }
 
-    def filterItem(self, nameIndex, item):
-        body = {
-            "query": {
-                "bool": {
-                    "must": [
-                        {"match_phrase": {"email": str(item.get('email'))}}
-                    ]
-                }
-            }
-        }
-
-        response = requests.get(
-            self.endpointOS + nameIndex + '/_search',
-            auth=HTTPBasicAuth(self.username, self.password),
-            headers={'Content-Type': 'application/json'},
-            data=json.dumps(body)
-        )
-
-        return response.json()
-
     def postItem(self, nameTable, nameIndex, item):
-        checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
-
-        if (checkItemExist.get('hits').get('total').get('value') != 0):
+        checkItemExistOS = self.filterItem(nameIndex=nameIndex, item=item)
+        
+        if (checkItemExistOS.get('hits').get('total').get('value') != 0):
             return {
                 'statuscode': 400,
                 'message': 'Item is exist.'
@@ -279,6 +283,48 @@ class dynamoDB:
                 return {
                     'statusCode': 200,
                     'message': 'Login success.'
+                }
+
+        return {
+            'statusCode': 500,
+            'message': 'Somthing wrong.'
+        }
+
+    def postForgotPassword(self, nameTable, nameIndex, item):
+        checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
+
+        if (checkItemExist.get('hits').get('total').get('value') != 0):
+            idItem = checkItemExist.get('hits').get('hits').get('_id')
+
+            checkExitItemDB = self.client.query(
+                TableName=nameTable,
+                ExpressionAttributeNames={
+                    '#id': 'id'
+                },
+                ExpressionAttributeValues={
+                    ':id': str(idItem)
+                },
+                KeyConditionExpression='#id = :id'
+            )
+
+            if (checkExitItemDB.get("Count") != 0):
+                res = self.client.update_item(
+                    TableName=nameTable,
+                    Key={
+                        'id': str(idItem)
+                    },
+                    ExpressionAttributeNames={
+                        '#password': 'password',
+                    },
+                    ExpressionAttributeValues={
+                        ':password': item.get('newpassword'),
+                    },
+                    UpdateExpression='SET #password = :password',
+                    ReturnValues='ALL_NEW',
+                )
+                return {
+                    'statusCode': 200,
+                    'message': 'Update password success'
                 }
 
         return {

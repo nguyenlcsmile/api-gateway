@@ -54,7 +54,6 @@ def index(event, context):
             items=listItems, nameTable='my-table', nameIndex='customers', columns=columns)
 
     elif inforReq.get("method") == "POST" and inforReq.get("path") == "/postItem" and dataParam and dataBody:
-        print(dataBody)
         res = db.postItem(nameTable=dataParam.get('table'),
                           nameIndex=dataParam.get('index'), item=dataBody)
 
