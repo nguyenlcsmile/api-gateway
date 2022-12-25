@@ -357,3 +357,47 @@ class dynamoDB:
             'statusCode': 500,
             'message': 'Item is not exists.'
         }
+
+    def deleteItem(self, nameTable, nameIndex, item):
+        checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
+
+        if (checkItemExist.get('hits').get('total').get('value') != 0):
+            idItem = checkItemExist.get('hits').get('hits')[0].get('_id')
+
+            checkExitItemDB = self.client.query(
+                TableName=nameTable,
+                ExpressionAttributeNames={
+                    '#id': 'id'
+                },
+                ExpressionAttributeValues={
+                    ':id': {
+                        'S': str(idItem)
+                    }
+                },
+                KeyConditionExpression='#id = :id'
+            )
+
+            if (checkExitItemDB.get("Count") != 0):
+                res = self.client.delete_item(
+                    TableName=nameTable,
+                    Key={
+                        'id': {
+                            'S': str(idItem)
+                        }
+                    }
+                )
+                
+                resOS = requests.delete(
+                    self.endpointOS + nameIndex + '/_doc/' + str(idItem),
+                    auth=HTTPBasicAuth(self.username, self.password),
+                    headers={'Content-Type': 'application/json'}
+                )
+                return {
+                    'statusCode': 200,
+                    'message': 'Delete item success.'
+                }
+
+        return {
+            'statusCode': 500,
+            'message': 'Item is not exists.'
+        }

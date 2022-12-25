@@ -79,3 +79,11 @@ Resources:
             Method: post
             RestApiId:
               Ref: UserApi
+
+        deleteItem:
+          Type: Api
+          Properties:
+            Path: /deleteItem
+            Method: delete
+            RestApiId:
+              Ref: UserApi

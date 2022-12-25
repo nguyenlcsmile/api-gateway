@@ -74,6 +74,11 @@ def index(event, context):
     elif inforReq.get("method") == "POST" and inforReq.get("path") == "/forgot-password" and dataParam and dataBody:
         res = db.postForgotPassword(nameTable=dataParam.get('table'),
                            nameIndex=dataParam.get('index'), item=dataBody)
+    
+    elif inforReq.get("method") == "DELETE" and inforReq.get("path") == "/deleteItem" and dataParam and dataBody:
+        res = db.deleteItem(nameTable=dataParam.get('table'),
+                           nameIndex=dataParam.get('index'), item=dataBody)
+
 
     return {
         "headers": {
