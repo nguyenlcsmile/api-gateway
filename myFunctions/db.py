@@ -286,7 +286,7 @@ class dynamoDB:
                 },
                 KeyConditionExpression='#id = :id'
             )
-            print(checkExitItemDB, type(checkExitItemDB))
+            
             if (checkExitItemDB.get("Count") != 0) and checkExitItemDB.get('Items')[0].get('password').get('S') == item.get('password'):
                 return {
                     'statusCode': 200,
@@ -333,6 +333,18 @@ class dynamoDB:
                     },
                     UpdateExpression='SET #password = :password',
                     ReturnValues='ALL_NEW',
+                )
+                
+                dataUpdateOS = {
+                    "doc": {
+                        "password": item.get('newpassword')
+                    }
+                }
+                resOS = requests.post(
+                    self.endpointOS + nameIndex + '/_update/' + str(idItem),
+                    auth=HTTPBasicAuth(self.username, self.password),
+                    headers={'Content-Type': 'application/json'},
+                    data=json.dumps(dataUpdateOS)
                 )
                 return {
                     'statusCode': 200,
