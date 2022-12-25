@@ -287,7 +287,7 @@ class dynamoDB:
                 KeyConditionExpression='#id = :id',
                 AttributesToGet=['password'],
             )
-            print(checkExitItemDB.get('Items'), type(checkExitItemDB.get('Items')))
+            print(checkExitItemDB, type(checkExitItemDB))
             if (checkExitItemDB.get("Count") != 0) and checkExitItemDB.get('Items')[0].get('password').get('S') == item.get('password'):
                 return {
                     'statusCode': 200,
