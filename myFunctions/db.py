@@ -274,7 +274,7 @@ class dynamoDB:
         if (checkItemExist.get('hits').get('total').get('value') != 0):
 
             idItem = checkItemExist.get('hits').get('hits')[0].get('_id')
-
+            print(idItem, type(idItem))
             checkExitItemDB = self.client.query(
                 TableName=nameTable,
                 ExpressionAttributeNames={
