@@ -287,7 +287,7 @@ class dynamoDB:
                 KeyConditionExpression='#id = :id',
                 AttributesToGet=['password'],
             )
-
+            print(checkExitItemDB.get('Items'), type(checkExitItemDB.get('Items')))
             if (checkExitItemDB.get("Count") != 0) and checkExitItemDB.get('Items')[0].get('password').get('S') == item.get('password'):
                 return {
                     'statusCode': 200,
@@ -303,7 +303,7 @@ class dynamoDB:
         checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
 
         if (checkItemExist.get('hits').get('total').get('value') != 0):
-            idItem = checkItemExist.get('hits').get('hits').get('_id')
+            idItem = checkItemExist.get('hits').get('hits')[0].get('_id')
 
             checkExitItemDB = self.client.query(
                 TableName=nameTable,
@@ -311,7 +311,9 @@ class dynamoDB:
                     '#id': 'id'
                 },
                 ExpressionAttributeValues={
-                    ':id': str(idItem)
+                    ':id': {
+                        'S': str(idItem)
+                    }
                 },
                 KeyConditionExpression='#id = :id'
             )
@@ -326,7 +328,9 @@ class dynamoDB:
                         '#password': 'password',
                     },
                     ExpressionAttributeValues={
-                        ':password': item.get('newpassword'),
+                        ':password': {
+                            'S': item.get('newpassword')
+                        },
                     },
                     UpdateExpression='SET #password = :password',
                     ReturnValues='ALL_NEW',
