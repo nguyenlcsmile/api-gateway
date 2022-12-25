@@ -76,6 +76,6 @@ Resources:
           Type: Api
           Properties:
             Path: /forgot-password
-            Method: put
+            Method: post
             RestApiId:
               Ref: UserApi
