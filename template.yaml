@@ -71,3 +71,11 @@ Resources:
             Method: put
             RestApiId:
               Ref: UserApi
+
+        forgotPassword:
+          Type: Api
+          Properties:
+            Path: /forgot-password
+            Method: put
+            RestApiId:
+              Ref: UserApi
