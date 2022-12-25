@@ -269,11 +269,11 @@ class dynamoDB:
 
     def postLogin(self, nameTable, nameIndex, item):
         checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
-        print(checkItemExist)
+        # print(checkItemExist)
         
         if (checkItemExist.get('hits').get('total').get('value') != 0):
 
-            idItem = checkItemExist.get('hits').get('hits').get('_id')
+            idItem = checkItemExist.get('hits').get('hits')[0].get('_id')
 
             checkExitItemDB = self.client.query(
                 TableName=nameTable,
@@ -286,8 +286,8 @@ class dynamoDB:
                 KeyConditionExpression='#id = :id'
             )
 
+            print(checkExitItemDB)
             if (checkExitItemDB.get("Count") != 0):
-                print(checkExitItemDB)
                 return {
                     'statusCode': 200,
                     'message': 'Login success.'
