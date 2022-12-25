@@ -161,37 +161,51 @@ class dynamoDB:
             resDB = self.client.update_item(
                 TableName=nameTable,
                 Key={
-                    'id': item.get('id')
+                    'id': {
+                        'S': item.get('id')
+                    }
                 },
                 ExpressionAttributeNames={
                     '#username': 'username',
                     '#email': 'email',
                     '#gender': 'gender',
                     '#phone': 'phone',
-                    '#urlImage': 'urlImage',
                     '#imagebase64': 'imagebase64',
                     '#country': 'country'
                 },
                 ExpressionAttributeValues={
-                    ':username': item.get('username'),
-                    ':email': item.get('email'),
-                    ':gender': item.get('gender'),
-                    ':phone': item.get('phone'),
-                    ':urlImage': item.get('urlImage'),
-                    ':imagebase64': item.get('imagebase64'),
-                    ':country': item.get('country')
+                    ':username': {
+                        'S': item.get('username', '')
+                    },
+                    ':email': {
+                        'S': item.get('email', '')
+                    },
+                    ':gender': {
+                        'S': item.get('gender', '')
+                    },
+                    ':phone': {
+                        'S': item.get('phone', '')
+                    },
+                    ':imagebase64': {
+                        'S': item.get('imagebase64', '')
+                    },
+                    ':country': {
+                        'S': item.get('country', '')
+                    }
                 },
                 UpdateExpression='SET #username = :username, #email = :email,' +
                 '#country = :country, #gender = :gender,' +
-                '#phone = :phone, #urlImage = :urlImage, #imagebase64 = :imagebase64',
+                '#phone = :phone, #imagebase64 = :imagebase64',
                 ReturnValues='ALL_NEW',
             )
             
             resOS = requests.post(
-                self.endpointOS + nameIndex + '/_update',
+                self.endpointOS + nameIndex + '/_update/' + item.get('id'),
                 auth=HTTPBasicAuth(self.username, self.password),
                 headers={'Content-Type': 'application/json'},
-                data=json.dumps(item)
+                data=json.dumps({
+                    "doc": item
+                })
             )
 
             return {
