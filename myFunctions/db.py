@@ -231,28 +231,28 @@ class dynamoDB:
                         'S': response.json().get('_id')
                     },
                     'username': {
-                        'S': item.get('username')
+                        'S': item.get('username', '')
                     },
                     'email': {
-                        'S': item.get('email')
+                        'S': item.get('email', '')
                     },
                     'gender': {
-                        'S': item.get('gender')
+                        'S': item.get('gender', '')
                     },
                     'country': {
-                        'S': item.get('country')
+                        'S': item.get('country', '')
                     },
                     'password': {
-                        'S': item.get('password')
+                        'S': item.get('password', '')
                     },
                     'phone': {
-                        'S': item.get('phone')
+                        'S': item.get('phone', '')
                     },
                     'urlImage': {
                         'S': urlImage
                     },
                     'imagebase64': {
-                        'S': item.get('imagebase64')
+                        'S': item.get('imagebase64', '')
                     },
                 }
             )
@@ -269,7 +269,8 @@ class dynamoDB:
 
     def postLogin(self, nameTable, nameIndex, item):
         checkItemExist = self.filterItem(nameIndex=nameIndex, item=item)
-
+        print(checkItemExist)
+        
         if (checkItemExist.get('hits').get('total').get('value') != 0):
 
             idItem = checkItemExist.get('hits').get('hits').get('_id')
@@ -286,6 +287,7 @@ class dynamoDB:
             )
 
             if (checkExitItemDB.get("Count") != 0):
+                print(checkExitItemDB)
                 return {
                     'statusCode': 200,
                     'message': 'Login success.'
